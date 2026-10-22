@@ -32,6 +32,8 @@ internal static class StartupTests
                 Require((bool)initialized.GetValue(null)!, "The native UI core did not initialize.");
                 foreach (var target in new[] { FormationInputPatches.AttachedTarget, FormationInputPatches.DetachingTarget })
                     Require(Harmony.GetPatchInfo(target)!.Owners.Contains(patches.Id), "A formation hook was not installed after readiness.");
+                Require(Harmony.GetPatchInfo(FormationInputPatches.DoubleClickTarget)?.Owners.Contains(patches.Id) != true,
+                    "The heading handler was patched before the game's own UI attachment established its game state.");
                 NoesisUnity.InitCore();
                 var hooks = Harmony.GetPatchInfo(FormationInputPatches.AttachedTarget)!.Postfixes;
                 Require(hooks.Count(p => p.owner == patches.Id) == 1, "A later core initialization duplicated the input hook.");

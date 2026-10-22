@@ -53,7 +53,7 @@ internal sealed class FormationClickInput
     {
         gesture.Cancel();
         if (e.Handled || e.ChangedButton != MouseButton.Left || e.ClickCount != 1) return;
-        var hit = UnitRowHitTest.Find(e.Source as DependencyObject, tree);
+        var hit = FormationRowHitTest.Find(e.Source as DependencyObject, tree);
         if (hit == null) return;
         var p = e.GetPosition(tree);
         gesture.Begin(hit.Value.Row, hit.Value.Unit, e.ClickCount, tree.Keyboard.Modifiers != ModifierKeys.None, p.X, p.Y);
@@ -63,7 +63,7 @@ internal sealed class FormationClickInput
     {
         if (!gesture.Pending) return;
         if (e.Handled || e.ChangedButton != MouseButton.Left) { gesture.Cancel(); return; }
-        var hit = UnitRowHitTest.Find(e.Source as DependencyObject, tree);
+        var hit = FormationRowHitTest.Find(e.Source as DependencyObject, tree);
         var p = e.GetPosition(tree);
         var unit = gesture.Complete(hit?.Row, hit?.Unit, tree.Keyboard.Modifiers != ModifierKeys.None, p.X, p.Y);
         if (unit == null) return;
@@ -71,7 +71,7 @@ internal sealed class FormationClickInput
             ?? throw new InvalidOperationException("The current game view model is unavailable.");
         if (!ReferenceEquals(tree.DataContext, model.FormationManager))
             throw new InvalidOperationException("The clicked formation list does not belong to the current battle.");
-        GameSelection.Select(model, unit);
+        FormationRowSelection.Select(model.FormationManager, hit!.Value, selected => GameSelection.Select(model, selected));
     });
 
     private void Move(object sender, MouseEventArgs e) => Guard(() =>
