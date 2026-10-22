@@ -1,0 +1,32 @@
+**/bin/
+**/obj/
+artifacts/
+dist/
+Directory.Build.local.props
+docs/agent-memory.md
+
+# Local tools, editor state and credentials
+.agents/
+.codex/
+.aws/
+.vs/
+.vscode/
+.env
+.env.*
+
+# Compiled outputs, dependency binaries and archives
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.zip
+*.7z
+*.tar
+*.gz
+
+# Runtime output, crash evidence and temporary files
+*.log
+*.dmp
+*.mdmp
+*.tmp
+*.bak
